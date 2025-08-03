@@ -6,7 +6,7 @@ router.get("/info", (req, res, next) => {
     res.json(
         {
             success: true,
-            message: 'welcome to info controller'
+            message: 'welcome to info controller v1'
         }
     )
 })

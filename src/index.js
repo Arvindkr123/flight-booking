@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use("/api", apiRoutes)
 
+
 app.listen(allConfig.serverConfig.PORT, () => {
     console.log('server listening on http://localhost:' + allConfig.serverConfig.PORT)
     allConfig.Logger.info('Successfully started server', {});
