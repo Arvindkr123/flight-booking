@@ -1,4 +1,5 @@
-import logger from "../config/logger-config.js";
+import { StatusCodes } from "http-status-codes";
+import AppError from "../utils/errors/app-errors.js";
 
 class CrudRepository {
   constructor(model) {
@@ -11,53 +12,36 @@ class CrudRepository {
   }
 
   async destroy(id) {
-    try {
-      const response = await this.model.destroy({
-        where: { id },
-      });
-      return response;
-    } catch (error) {
-      logger.error("Something went wrong in crud repository - destroy", { error });
-      throw error;
-    }
+    const response = await this.model.destroy({
+      where: { id },
+    });
+    return response;
   }
 
   async get(id) {
-    try {
-      const response = await this.model.findByPk(id);
-      return response;
-    } catch (error) {
-      logger.error("Something went wrong in crud repository - get", { error });
-      throw error;
+    const response = await this.model.findByPk(id);
+    if(!response){
+      throw new AppError('Not able to find the record', StatusCodes.NOT_FOUND);
     }
+    return response;
   }
 
   async getAll() {
-    try {
       const response = await this.model.findAll();
       return response;
-    } catch (error) {
-      logger.error("Something went wrong in crud repository - getAll", { error });
-      throw error;
-    }
   }
 
   async update(id, data) {
-    try {
-      const [rowsUpdated] = await this.model.update(data, {
-        where: { id },
-        returning: true, // useful for Postgres, ignored in MySQL
-      });
+    const [rowsUpdated] = await this.model.update(data, {
+      where: { id },
+      returning: true, // useful for Postgres, ignored in MySQL
+    });
 
-      if (rowsUpdated === 0) {
-        return null; // nothing updated
-      }
-
-      return await this.get(id); // return updated record
-    } catch (error) {
-      logger.error("Something went wrong in crud repository - update", { error });
-      throw error;
+    if (rowsUpdated === 0) {
+      return null; // nothing updated
     }
+
+    return await this.get(id); // return updated record
   }
 }
 

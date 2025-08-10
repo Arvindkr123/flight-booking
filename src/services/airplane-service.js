@@ -19,3 +19,24 @@ export async function createAirPlane(data) {
     }
 }
 
+export async function getAirPlanes() {
+    try {
+        const res = await new AirPlaneRepository().getAll();
+        return res;
+    } catch (error) {
+        throw new AppError('Cannot fetch airplanes data', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
+export async function getAirPlaneById(id) {
+    try {
+        const airplane = await new AirPlaneRepository().get(id);
+        return airplane;
+    } catch (error) {
+        if (error.statusCode === StatusCodes.NOT_FOUND) {
+            throw new AppError('The Airplane you requested is not present', StatusCodes.NOT_FOUND);
+        }
+        throw new AppError('Cannot fetch airplanes data ', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
