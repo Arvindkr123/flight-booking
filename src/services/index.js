@@ -1,7 +1,8 @@
-import {createAirPlane,getAirPlaneById, getAirPlanes} from "./airplane-service.js"
+import {createAirPlane,getAirPlaneById, getAirPlanes, deleteAirPlaneById} from "./airplane-service.js"
 
 export {
     createAirPlane,
     getAirPlanes,
-    getAirPlaneById
+    getAirPlaneById,
+    deleteAirPlaneById
 }

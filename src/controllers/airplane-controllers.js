@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { createAirPlane, getAirPlanes, getAirPlaneById } from '../services/index.js';
+import { createAirPlane, getAirPlanes, getAirPlaneById, deleteAirPlaneById} from '../services/index.js';
 import errorResponse from "../utils/common/error-response.js";
 import successResponse from "../utils/common/success-response.js";
 
@@ -40,6 +40,21 @@ export const getAirPlanesController = async (req, res) => {
 export const getAirPlaneByIdController = async (req, res) => {
     try {
         const airplane = await getAirPlaneById(req.params.id)
+        successResponse.data = airplane;
+        return res.status(
+            StatusCodes.OK
+        ).json(successResponse)
+    } catch (error) {
+        errorResponse.error = error
+        return res.status(
+            error.statusCode
+        ).json(error)
+    }
+}
+
+export const deleteAirPlaneByIdController = async (req, res) => {
+    try {
+        const airplane = await deleteAirPlaneById(req.params.id)
         successResponse.data = airplane;
         return res.status(
             StatusCodes.OK

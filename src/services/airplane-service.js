@@ -40,3 +40,15 @@ export async function getAirPlaneById(id) {
     }
 }
 
+export async function deleteAirPlaneById(id) {
+    try {
+        const airplane = await new AirPlaneRepository().destroy(id);
+        return airplane;
+    } catch (error) {
+        if (error.statusCode === StatusCodes.NOT_FOUND) {
+            throw new AppError('The Airplane you requested is not present', StatusCodes.NOT_FOUND);
+        }
+        throw new AppError('Cannot fetch airplanes data ', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
