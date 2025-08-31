@@ -15,7 +15,6 @@ export default {
         table: "Cities",
         field: "id",
       },
-      onUpdate: "CASCADE",
       onDelete: "CASCADE",
     });
   },
