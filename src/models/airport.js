@@ -8,6 +8,11 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.City, {
+        foreignKey: 'cityId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      })
     }
   }
   Airport.init({
@@ -23,11 +28,11 @@ export default (sequelize, DataTypes) => {
     },
     address: {
       type: DataTypes.STRING,
-      unique:true
+      unique: true
     },
     cityId: {
       type: DataTypes.INTEGER,
-      allowNull:false,
+      allowNull: false,
     }
   }, {
     sequelize,
